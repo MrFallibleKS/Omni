@@ -1,0 +1,17 @@
+omni-app/
+├── public/
+│   └── index.html1
+├── src/
+│   ├── components/
+│   │   ├── ChatInterface.tsx1
+│   │   ├── Dashboard.tsx1
+│   │   ├── Header.tsx1
+│   │   └── WalletConnector.tsx1
+│   ├── pages/
+│   │   └── Home.tsx1
+│   ├── App.tsx1
+│   ├── index.tsx1
+│   └── styles/
+│       └── index.css1
+├── package.json
+└── tsconfig.json
