@@ -1,17 +1,18 @@
-omni-app/
-├── public/
-│   └── index.html1
+omni/
+├── public/            # Static assets
 ├── src/
-│   ├── components/
-│   │   ├── ChatInterface.tsx1
-│   │   ├── Dashboard.tsx1
-│   │   ├── Header.tsx1
-│   │   └── WalletConnector.tsx1
-│   ├── pages/
-│   │   └── Home.tsx1
-│   ├── App.tsx1
-│   ├── index.tsx1
-│   └── styles/
-│       └── index.css1
-├── package.json
-└── tsconfig.json
+│   ├── components/    # UI Components
+│   ├── pages/         # Page Components
+│   ├── layouts/       # Layout Components
+│   ├── hooks/         # Custom Hooks
+│   ├── utils/         # Utility Functions
+│   ├── assets/        # Images & Icons
+│   ├── App.tsx        # Main App Component
+│   ├── main.tsx       # Entry Point
+│   ├── index.css      # Tailwind Config
+├── .eslintrc.js       # ESLint Config
+├── .prettierrc        # Prettier Config
+├── tailwind.config.js # Tailwind Config
+├── tsconfig.json      # TypeScript Config
+├── vite.config.ts     # Vite Config
+├── package.json       # Dependencies

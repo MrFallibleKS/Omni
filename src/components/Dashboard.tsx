@@ -1,11 +1,14 @@
-import React from 'react';
+import { UserButton, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 
-const Dashboard: React.FC = () => {
-  // Placeholder data, functionality to be added later
+const Dashboard = () => {
   return (
-    <div className="bg-white shadow p-4 rounded">
-      <h2 className="text-xl font-semibold mb-2">Dashboard</h2>
-      <p>This section will display transaction history and AI decision logs.</p>
+    <div className="h-screen flex flex-col items-center justify-center bg-gray-800 text-white">
+      <h1 className="text-3xl font-semibold">Dashboard</h1>
+      <UserButton afterSignOutUrl="/" />
+      
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
     </div>
   );
 };

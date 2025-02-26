@@ -1,15 +1,18 @@
-import React from 'react';
-import Header from './components/Header';
-import Home from './pages/Home';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "@pages/Home";
+import Dashboard from "@pages/Dashboard";
+import AuthWrapper from "@auth/ClerkProvider";
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
-      <main className="p-4">
-        <Home />
-      </main>
-    </div>
+    <AuthWrapper>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Router>
+    </AuthWrapper>
   );
 };
 
