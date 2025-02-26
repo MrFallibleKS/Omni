@@ -1,4 +1,5 @@
 import { UserButton, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
+import Chatbot from "@components/Chatbot";
 
 const Dashboard = () => {
   return (
@@ -6,6 +7,8 @@ const Dashboard = () => {
       <h1 className="text-3xl font-semibold">Dashboard</h1>
       <UserButton afterSignOutUrl="/" />
       
+      <Chatbot />
+
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
