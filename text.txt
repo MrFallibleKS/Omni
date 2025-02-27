@@ -1,18 +1,25 @@
-omni/
-├── public/            # Static assets
-├── src/
-│   ├── components/    # UI Components
-│   ├── pages/         # Page Components
-│   ├── layouts/       # Layout Components
-│   ├── hooks/         # Custom Hooks
-│   ├── utils/         # Utility Functions
-│   ├── assets/        # Images & Icons
-│   ├── App.tsx        # Main App Component
-│   ├── main.tsx       # Entry Point
-│   ├── index.css      # Tailwind Config
-├── .eslintrc.js       # ESLint Config
-├── .prettierrc        # Prettier Config
-├── tailwind.config.js # Tailwind Config
-├── tsconfig.json      # TypeScript Config
-├── vite.config.ts     # Vite Config
-├── package.json       # Dependencies
+/your-project-root
+├── /node_modules
+├── /public
+│   ├── index.html
+│   ├── favicon.ico
+├── /src
+│   ├── /components
+│   │   ├── Navbar.tsx
+│   │   ├── Footer.tsx
+│   ├── /pages
+│   │   ├── Home.tsx
+│   │   ├── Dashboard.tsx
+│   ├── /utils
+│   │   ├── helpers.ts
+│   ├── /styles
+│   │   ├── global.css
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── vite-env.d.ts
+├── .env
+├── tsconfig.json
+├── tsconfig.app.json
+├── package.json
+├── vite.config.ts
+├── README.md
