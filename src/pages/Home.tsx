@@ -1,4 +1,5 @@
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
+import React = require("react");
 
 const Home = () => {
   return (
