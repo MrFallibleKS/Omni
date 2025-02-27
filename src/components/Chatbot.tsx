@@ -1,38 +1,38 @@
 import React, { useState } from "react";
-import Configuration, { OpenAI } from "openai";
+import { OpenAIApi, Configuration } from "openai";
 import { motion } from "framer-motion";
+
+// Move OpenAI initialization outside the component
+const openai = new OpenAIApi(
+  new Configuration({
+    apiKey: import.meta.env.VITE_OPENAI_KEY, // Ensure API key is set in .env
+  })
+);
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const openai = new OpenAI(
-    new Configuration({
-      apiKey: import.meta.env.VITE_OPENAI_KEY,
-    })
-  );
-
   const sendMessage = async () => {
     if (!input.trim()) return;
     setLoading(true);
-    
+
     const newMessages = [...messages, { role: "user", content: input }];
     setMessages(newMessages);
     setInput("");
-    
+
     try {
-      const response = await openai.Completions.create({
+      const response = await openai.createChatCompletion({
         model: "gpt-4",
-        prompt: newMessages.map(msg => msg.content).join('\n'),
+        messages: newMessages,
         max_tokens: 150,
       });
-      
-      setMessages([
-        ...newMessages,
-        { role: "ai", content: response.data.choices[0].message?.content || "Error processing request." },
-      ]);
+
+      const aiMessage = response.data.choices[0]?.message?.content || "Error processing request.";
+      setMessages([...newMessages, { role: "ai", content: aiMessage }]);
     } catch (error) {
+      console.error("OpenAI API Error:", error);
       setMessages([...newMessages, { role: "ai", content: "An error occurred. Please try again." }]);
     }
     setLoading(false);
