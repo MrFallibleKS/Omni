@@ -13,6 +13,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.24.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "framer-motion": "^12.4.7",
     "openai": "^4.85.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

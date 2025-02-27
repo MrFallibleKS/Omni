@@ -1,56 +1,80 @@
-import React,{ useState } from "react";
-import  {Configuration, OpenAI} from "openai";
+import React, { useState } from "react";
+import Configuration, { OpenAI } from "openai";
+import { motion } from "framer-motion";
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const openai = new OpenAIApi(
+  const openai = new OpenAI(
     new Configuration({
-      apiKey: import.meta.env.VITE_OPENAI_KEY, // Add API key in .env
+      apiKey: import.meta.env.VITE_OPENAI_KEY,
     })
   );
 
   const sendMessage = async () => {
-    if (!input) return;
+    if (!input.trim()) return;
+    setLoading(true);
     
     const newMessages = [...messages, { role: "user", content: input }];
     setMessages(newMessages);
     setInput("");
-
-    const response = await openai.createChatCompletion({
-      model: "gpt-4",
-      messages: newMessages,
-    });
-
-    setMessages([...newMessages, { role: "ai", content: response.data.choices[0].message?.content || "Error" }]);
+    
+    try {
+      const response = await openai.Completions.create({
+        model: "gpt-4",
+        prompt: newMessages.map(msg => msg.content).join('\n'),
+        max_tokens: 150,
+      });
+      
+      setMessages([
+        ...newMessages,
+        { role: "ai", content: response.data.choices[0].message?.content || "Error processing request." },
+      ]);
+    } catch (error) {
+      setMessages([...newMessages, { role: "ai", content: "An error occurred. Please try again." }]);
+    }
+    setLoading(false);
   };
 
   return (
-    <div className="w-full max-w-2xl p-4 bg-gray-900 text-white rounded-lg">
-      <h2 className="text-xl font-bold mb-2">Chat with Omni AI</h2>
-      <div className="h-64 overflow-y-auto border border-gray-700 p-2 rounded-lg">
+    <div className="w-full max-w-3xl mx-auto p-6 bg-gray-900 text-white rounded-lg shadow-lg flex flex-col">
+      <h2 className="text-2xl font-bold mb-4 text-center">Chat with Omni AI</h2>
+      <div className="h-80 overflow-y-auto border border-gray-700 p-3 rounded-lg space-y-3 bg-gray-800">
         {messages.map((msg, index) => (
-          <p key={index} className={msg.role === "user" ? "text-right" : "text-left"}>
-            <span className={msg.role === "user" ? "text-blue-400" : "text-green-400"}>
-              {msg.role === "user" ? "You: " : "Omni: "}
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+          >
+            <span
+              className={`px-3 py-2 rounded-lg max-w-xs break-words ${msg.role === "user" ? "bg-blue-600" : "bg-green-600"}`}
+            >
+              {msg.content}
             </span>
-            {msg.content}
-          </p>
+          </motion.div>
         ))}
+        {loading && <p className="text-gray-400">Omni AI is typing...</p>}
       </div>
-      <input
-        className="w-full p-2 mt-2 bg-gray-800 border border-gray-700 rounded"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Ask something..."
-      />
-      <button
-        className="mt-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
-        onClick={sendMessage}
-      >
-        Send
-      </button>
+      <div className="flex mt-4 gap-2">
+        <input
+          className="flex-1 p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask something..."
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        />
+        <button
+          className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-600"
+          onClick={sendMessage}
+          disabled={loading}
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 };
